@@ -1,14 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { ReactElement } from 'react';
+import {
+  Button,
+  Platform,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native';
 
-export default function App() {
+export default function App(): ReactElement {
   return (
     <View style={styles.container}>
       <View>
-        <Text>Another Piece of Text</Text>
+        <Text style={styles.hello}>Another Piece of Text</Text>
       </View>
       <View>
-        <Text>Hello World!!! 👋</Text>
+        <Text style={styles.hello}>Hello World!!! 👋</Text>
       </View>
       <Button title="My first Button" />
       <StatusBar style="auto" />
@@ -22,5 +31,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  } as ViewStyle,
+  hello: {
+    fontSize: 18,
+    fontFamily:
+      Platform.OS === 'android'
+        ? 'sans-serif'
+        : Platform.OS === 'ios'
+        ? 'Arial'
+        : '',
+    margin: 16,
+    borderWidth: 3,
+    borderColor: 'red',
+    borderStyle: 'solid',
+    borderRadius: 15,
+    padding: 9,
+  } as TextStyle,
 });
