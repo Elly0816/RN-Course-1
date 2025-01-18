@@ -1,50 +1,104 @@
 import { StatusBar } from 'expo-status-bar';
-import { ReactElement } from 'react';
+import { ReactElement, useCallback, useState } from 'react';
 import {
   Button,
-  Platform,
   StyleSheet,
-  Text,
-  TextStyle,
   View,
+  TextInput,
+  Text,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+  GestureResponderEvent,
   ViewStyle,
+  TextStyle,
 } from 'react-native';
+// import {
+//   TextInput,
+//   GestureHandlerRootView,
+// } from 'react-native-gesture-handler';
 
 export default function App(): ReactElement {
+  const [currentGoal, setCurrentGoal] = useState<string>();
+  const [goals, setGoals] = useState<string[]>([]);
+
+  const textHandler = useCallback(
+    (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
+      // e.preventDefault();
+      setCurrentGoal(e.nativeEvent.text);
+    },
+    []
+  );
+
+  const buttonHandler = useCallback(
+    (e: GestureResponderEvent): void => {
+      if (!currentGoal) return;
+      if (goals.length > 0) {
+        setGoals([...goals, currentGoal]);
+      } else {
+        setGoals([currentGoal]);
+      }
+      console.log(currentGoal);
+      setCurrentGoal(undefined);
+    },
+    [currentGoal]
+  );
   return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.hello}>Another Piece of Text</Text>
+    <View style={styles.appContainer}>
+      <View style={styles.textInputContainer}>
+        {/* <GestureHandlerRootView > */}
+        <TextInput
+          value={currentGoal}
+          placeholder="Your course goal!"
+          onChange={textHandler}
+          style={styles.textInput}
+        />
+        {/* </GestureHandlerRootView> */}
+        <Button onPress={buttonHandler} title="Add goal" />
       </View>
-      <View>
-        <Text style={styles.hello}>Hello World!!! 👋</Text>
+      <View style={styles.goalsContainer}>
+        {goals.map((g, i) => (
+          <Text style={styles.text} key={i}>
+            {g}
+          </Text>
+        ))}
+        {/* <Text>{goals.map(g => g)}</Text> */}
       </View>
-      <Button title="My first Button" />
       <StatusBar style="auto" />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  appContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: 20,
+    paddingHorizontal: 16,
+    justifyContent: 'space-evenly',
   } as ViewStyle,
-  hello: {
-    fontSize: 18,
-    fontFamily:
-      Platform.OS === 'android'
-        ? 'sans-serif'
-        : Platform.OS === 'ios'
-        ? 'Arial'
-        : '',
-    margin: 16,
-    borderWidth: 3,
-    borderColor: 'red',
-    borderStyle: 'solid',
-    borderRadius: 15,
-    padding: 9,
+  textInputContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    // paddingBottom: 15,
+    borderBottomWidth: 2,
+    borderBottomColor: 'gray',
+    marginBottom: 15,
+  } as ViewStyle,
+  textInput: {
+    width: '70%',
+    borderWidth: 1,
+    borderColor: 'grey',
   } as TextStyle,
+  text: {
+    fontWeight: 'condensedBold',
+    fontSize: 15,
+    borderColor: 'gray',
+    borderWidth: 2,
+    marginBottom: 2,
+    borderRadius: 5,
+  } as TextStyle,
+  goalsContainer: {
+    flex: 5,
+  } as ViewStyle,
 });
