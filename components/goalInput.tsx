@@ -1,4 +1,3 @@
-import { goalType } from '@/types';
 import React, { useState } from 'react';
 import {
   Button,
@@ -12,10 +11,10 @@ import {
 } from 'react-native';
 
 type goalInputProps = {
-  setGoals: React.Dispatch<React.SetStateAction<goalType[]>>;
+  addGoal: (goal: string) => void;
 };
 
-export default function GoalInput({ setGoals }: goalInputProps) {
+export default function GoalInput({ addGoal }: goalInputProps) {
   const [currentGoal, setCurrentGoal] = useState<string>();
 
   const textHandler = (
@@ -26,10 +25,7 @@ export default function GoalInput({ setGoals }: goalInputProps) {
 
   const buttonHandler = (): void => {
     if (!currentGoal) return;
-    setGoals((goals: goalType[]) => [
-      ...goals,
-      { id: Math.random().toString(), goal: currentGoal },
-    ]);
+    addGoal(currentGoal);
     console.log(currentGoal);
     setCurrentGoal(undefined);
   };

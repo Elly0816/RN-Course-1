@@ -5,15 +5,12 @@ import GoalItem from './goalItem';
 
 type GoalsListProps = {
   goals: goalType[];
-  setGoals: React.Dispatch<React.SetStateAction<goalType[]>>;
+  deleteGoal: (id: number) => void;
 };
 export default function GoalsList({
   goals,
-  setGoals,
+  deleteGoal,
 }: GoalsListProps): ReactElement {
-  const handleDelete = (id: number): void => {
-    setGoals(goals => [...goals.filter((g, i) => i !== id)]);
-  };
   return (
     <View style={styles.goalsContainer}>
       <FlatList
@@ -21,7 +18,7 @@ export default function GoalsList({
         renderItem={({ item, index }) => (
           <View style={styles.textAndButtonContainer}>
             <GoalItem index={index} item={item} />
-            <Button title="Delete goal" onPress={() => handleDelete(index)} />
+            <Button title="Delete goal" onPress={() => deleteGoal(index)} />
           </View>
         )}
         keyExtractor={(data, index) => (data.id ? data.id : index.toString())}

@@ -8,10 +8,18 @@ import GoalsList from '@/components/goalsList';
 export default function App(): ReactElement {
   const [goals, setGoals] = useState<goalType[]>([]);
 
+  function addGoalhandler(goal: string) {
+    setGoals(goals => [...goals, { id: Math.random().toString(), goal: goal }]);
+  }
+
+  function deleteGoalHandler(id: number) {
+    setGoals(goals => goals.filter((goal, index) => id !== index));
+  }
+
   return (
     <View style={styles.appContainer}>
-      <GoalInput setGoals={setGoals} />
-      <GoalsList goals={goals} setGoals={setGoals} />
+      <GoalInput addGoal={addGoalhandler} />
+      <GoalsList goals={goals} deleteGoal={deleteGoalHandler} />
       <StatusBar style="auto" />
     </View>
   );
