@@ -5,12 +5,15 @@ import GoalItem from './goalItem';
 
 type GoalsListProps = {
   goals: goalType[];
-  handleDelete: (id: number) => void;
+  setGoals: React.Dispatch<React.SetStateAction<goalType[]>>;
 };
 export default function GoalsList({
   goals,
-  handleDelete,
+  setGoals,
 }: GoalsListProps): ReactElement {
+  const handleDelete = (id: number): void => {
+    setGoals(goals => [...goals.filter((g, i) => i !== id)]);
+  };
   return (
     <View style={styles.goalsContainer}>
       <FlatList

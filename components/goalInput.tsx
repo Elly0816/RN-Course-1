@@ -1,4 +1,5 @@
-import React from 'react';
+import { goalType } from '@/types';
+import React, { useState } from 'react';
 import {
   Button,
   NativeSyntheticEvent,
@@ -11,16 +12,28 @@ import {
 } from 'react-native';
 
 type goalInputProps = {
-  currentGoal: string | undefined;
-  textHandler: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
-  buttonHandler: () => void;
+  setGoals: React.Dispatch<React.SetStateAction<goalType[]>>;
 };
 
-export default function GoalInput({
-  currentGoal,
-  textHandler,
-  buttonHandler,
-}: goalInputProps) {
+export default function GoalInput({ setGoals }: goalInputProps) {
+  const [currentGoal, setCurrentGoal] = useState<string>();
+
+  const textHandler = (
+    e: NativeSyntheticEvent<TextInputChangeEventData>
+  ): void => {
+    setCurrentGoal(e.nativeEvent.text);
+  };
+
+  const buttonHandler = (): void => {
+    if (!currentGoal) return;
+    setGoals((goals: goalType[]) => [
+      ...goals,
+      { id: Math.random().toString(), goal: currentGoal },
+    ]);
+    console.log(currentGoal);
+    setCurrentGoal(undefined);
+  };
+
   return (
     <View style={styles.textInputContainer}>
       <TextInput
