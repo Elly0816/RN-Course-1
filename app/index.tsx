@@ -1,68 +1,48 @@
 import { StatusBar } from 'expo-status-bar';
-import { ReactElement, useCallback, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import {
-  Button,
   StyleSheet,
   View,
-  TextInput,
-  Text,
   NativeSyntheticEvent,
   TextInputChangeEventData,
-  GestureResponderEvent,
   ViewStyle,
-  TextStyle,
 } from 'react-native';
-// import {
-//   TextInput,
-//   GestureHandlerRootView,
-// } from 'react-native-gesture-handler';
+import GoalInput from '@/components/goalInput';
+import { goalType } from '@/types';
+import GoalsList from '@/components/goalsList';
 
 export default function App(): ReactElement {
   const [currentGoal, setCurrentGoal] = useState<string>();
-  const [goals, setGoals] = useState<string[]>([]);
+  const [goals, setGoals] = useState<goalType[]>([]);
 
-  const textHandler = useCallback(
-    (e: NativeSyntheticEvent<TextInputChangeEventData>): void => {
-      // e.preventDefault();
-      setCurrentGoal(e.nativeEvent.text);
-    },
-    []
-  );
+  const textHandler = (
+    e: NativeSyntheticEvent<TextInputChangeEventData>
+  ): void => {
+    setCurrentGoal(e.nativeEvent.text);
+  };
 
-  const buttonHandler = useCallback(
-    (e: GestureResponderEvent): void => {
-      if (!currentGoal) return;
-      if (goals.length > 0) {
-        setGoals([...goals, currentGoal]);
-      } else {
-        setGoals([currentGoal]);
-      }
-      console.log(currentGoal);
-      setCurrentGoal(undefined);
-    },
-    [currentGoal]
-  );
+  const buttonHandler = (): void => {
+    if (!currentGoal) return;
+    setGoals(goals => [
+      ...goals,
+      { id: Math.random().toString(), goal: currentGoal },
+    ]);
+    console.log(currentGoal);
+    setCurrentGoal(undefined);
+  };
+
+  const handleDelete = (id: number): void => {
+    setGoals(goals => [...goals.filter((g, i) => i !== id)]);
+  };
+
   return (
     <View style={styles.appContainer}>
-      <View style={styles.textInputContainer}>
-        {/* <GestureHandlerRootView > */}
-        <TextInput
-          value={currentGoal}
-          placeholder="Your course goal!"
-          onChange={textHandler}
-          style={styles.textInput}
-        />
-        {/* </GestureHandlerRootView> */}
-        <Button onPress={buttonHandler} title="Add goal" />
-      </View>
-      <View style={styles.goalsContainer}>
-        {goals.map((g, i) => (
-          <Text style={styles.text} key={i}>
-            {g}
-          </Text>
-        ))}
-        {/* <Text>{goals.map(g => g)}</Text> */}
-      </View>
+      <GoalInput
+        buttonHandler={buttonHandler}
+        currentGoal={currentGoal}
+        textHandler={textHandler}
+      />
+      <GoalsList goals={goals} handleDelete={handleDelete} />
       <StatusBar style="auto" />
     </View>
   );
@@ -74,31 +54,5 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingHorizontal: 16,
     justifyContent: 'space-evenly',
-  } as ViewStyle,
-  textInputContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    // paddingBottom: 15,
-    borderBottomWidth: 2,
-    borderBottomColor: 'gray',
-    marginBottom: 15,
-  } as ViewStyle,
-  textInput: {
-    width: '70%',
-    borderWidth: 1,
-    borderColor: 'grey',
-  } as TextStyle,
-  text: {
-    fontWeight: 'condensedBold',
-    fontSize: 15,
-    borderColor: 'gray',
-    borderWidth: 2,
-    marginBottom: 2,
-    borderRadius: 5,
-  } as TextStyle,
-  goalsContainer: {
-    flex: 5,
   } as ViewStyle,
 });
