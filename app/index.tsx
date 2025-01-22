@@ -4,6 +4,7 @@ import { StyleSheet, View, ViewStyle } from 'react-native';
 import GoalInput from '@/components/goalInput';
 import { goalType } from '@/types';
 import GoalsList from '@/components/goalsList';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function App(): ReactElement {
   const [goals, setGoals] = useState<goalType[]>([]);
@@ -17,15 +18,22 @@ export default function App(): ReactElement {
   }
 
   return (
-    <View style={styles.appContainer}>
-      <GoalInput addGoal={addGoalhandler} />
-      <GoalsList goals={goals} deleteGoal={deleteGoalHandler} />
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.appContainer}>
+          <GoalInput addGoal={addGoalhandler} />
+          <GoalsList goals={goals} deleteGoal={deleteGoalHandler} />
+          <StatusBar style="light" />
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+  } as ViewStyle,
   appContainer: {
     flex: 1,
     paddingTop: 20,

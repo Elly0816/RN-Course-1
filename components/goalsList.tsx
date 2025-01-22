@@ -1,6 +1,13 @@
 import { goalType } from '@/types';
 import { ReactElement } from 'react';
-import { View, FlatList, Button, StyleSheet, ViewStyle } from 'react-native';
+import {
+  View,
+  FlatList,
+  Button,
+  StyleSheet,
+  ViewStyle,
+  Pressable,
+} from 'react-native';
 import GoalItem from './goalItem';
 
 type GoalsListProps = {
@@ -17,21 +24,11 @@ export default function GoalsList({
         data={goals}
         renderItem={({ item, index }) => (
           <View style={styles.textAndButtonContainer}>
-            <GoalItem index={index} item={item} />
-            <Button title="Delete goal" onPress={() => deleteGoal(index)} />
+            <GoalItem index={index} item={item} onPress={deleteGoal} />
           </View>
         )}
         keyExtractor={(data, index) => (data.id ? data.id : index.toString())}
       />
-      {/* <ScrollView>
-              {goals.map((g, i) => (
-                <View style={styles.textContainer} key={i}>
-                  <Text style={styles.goalText}>
-                    {i + 1}. {g}
-                  </Text>
-                </View>
-              ))}
-            </ScrollView> */}
     </View>
   );
 }
@@ -40,7 +37,7 @@ const styles = StyleSheet.create({
   textAndButtonContainer: {
     borderColor: 'gray',
     marginBottom: 5,
-    paddingHorizontal: 5,
+    // paddingHorizontal: 5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

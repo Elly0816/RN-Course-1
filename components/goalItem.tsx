@@ -1,14 +1,33 @@
 import { goalItemType } from '@/types';
+import React from 'react';
 import { ReactElement } from 'react';
-import { View, Text, StyleSheet, TextStyle, ViewStyle } from 'react-native';
+import {
+  Text,
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+  Pressable,
+} from 'react-native';
 
-export default function GoalItem({ item, index }: goalItemType): ReactElement {
+export default function GoalItem({
+  item,
+  index,
+  onPress,
+}: goalItemType): ReactElement {
   return (
-    <View style={styles.textContainer}>
+    <Pressable
+      style={({ pressed }) => {
+        return !pressed
+          ? styles.textContainer
+          : { ...styles.textContainer, opacity: 0.5 };
+      }}
+      onPress={onPress.bind(null, index)}
+      //   android_ripple={{ color: '#888888' }}
+    >
       <Text style={styles.goalText}>
         {index + 1}. {item.goal}
       </Text>
-    </View>
+    </Pressable>
   );
 }
 
@@ -17,10 +36,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: '#ffaaff',
     borderRadius: 5,
-    width: '65%',
-    marginRight: 3,
+    width: '100%',
     paddingTop: 4,
-    paddingLeft: 5,
+    padding: 5,
   } as ViewStyle,
   goalText: {
     fontWeight: 'condensedBold',

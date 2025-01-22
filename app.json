@@ -3,6 +3,7 @@
     "name": "RN-course-1",
     "slug": "RN-course-1",
     "version": "1.0.0",
+    "jsEngine": "hermes",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
