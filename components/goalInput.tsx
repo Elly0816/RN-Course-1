@@ -79,7 +79,7 @@ export default function GoalInput({ addGoal }: goalInputProps) {
         <View style={styles.editButton}>
           <Button
             onPress={() => setModalIsVisible(true)}
-            color="#3377ff"
+            color="#a065ec"
             title="Add new goal"
           />
         </View>
@@ -101,9 +101,12 @@ const styles = StyleSheet.create({
   textInput: {
     width: '100%',
     borderWidth: 1,
-    borderColor: 'grey',
-    color: '#ffffff',
+    backgroundColor: '#e4d0ff',
+    borderColor: '#e4d0ff',
+    color: '#120438',
     fontWeight: 'bold',
+    padding: 16,
+    borderRadius: 6,
   } as TextStyle,
   buttonContainer: {
     // flex: 2,

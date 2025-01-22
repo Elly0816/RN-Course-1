@@ -7,6 +7,7 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
+    "backgroundColor": "#1e085a",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
