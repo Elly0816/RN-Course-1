@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 10,
-    backgroundColor: '#aaaaaa',
+    // backgroundColor: '#aaaaaa',
+    backgroundColor: '#311b6b',
   } as ViewStyle,
   textInput: {
     width: '100%',
