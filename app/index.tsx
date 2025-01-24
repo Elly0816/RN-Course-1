@@ -20,7 +20,7 @@ export default function App(): ReactElement {
   }
 
   /*
-  The Stack.Screen option below stops the function being used as the
+  The Stack.Screen option below stops the function name being used as the
    name of the screen from showing up between the status 
    bar and the contents of the screen*/
   return (
